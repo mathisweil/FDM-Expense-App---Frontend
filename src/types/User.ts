@@ -1,16 +1,17 @@
 export type User = {
-  user_id: string;
+  employee_id: number;
   first_name: string;
   last_name: string;
-  role: string;
+  permission: 'EMPLOYEE' | 'MANAGER' | 'FINANCE' | 'ADMIN';
   email: string;
-  phone_number: string;
+  phone: string;
   address: string;
-  zip_code: string;
+  postcode: string;
   city: string;
   country: string;
   account_number: string;
   sort_code: string;
   tax_code: string;
-  manager_id:string;
+  manager_id: number;
+  finance_id: number;
 };

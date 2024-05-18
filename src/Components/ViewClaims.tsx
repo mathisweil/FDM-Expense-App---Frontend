@@ -12,13 +12,12 @@ import { User } from "@/types/User";
 interface ViewClaimsProps {
   claims: Claim[];
   pastClaims: Claim[];
-  role: "finance" | "manager" | "employee";
-  user: User;
+  permission: "FINANCE" | "MANAGER" | "EMPLOYEE";
+  employee_id: number;
 }
 
-const ViewClaims = ({ claims, user, pastClaims, role }: ViewClaimsProps) => {
+const ViewClaims = ({ claims, employee_id, pastClaims, permission }: ViewClaimsProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const handleFilterChange = (
     filters: Record<string, boolean | number[] | number>
   ) => {
@@ -65,9 +64,9 @@ const ViewClaims = ({ claims, user, pastClaims, role }: ViewClaimsProps) => {
       <main className="order-last mx-1 md:mx-3 md:col-start-2">
         <div className="flex flex-col gap-1 mb-2">
           <h2 className="mb-1">
-            {role === "finance"
+            {permission === "FINANCE"
               ? "Process"
-              : role === "manager"
+              : permission === "MANAGER"
               ? "Approve"
               : "Current"}{" "}
             claims
@@ -77,8 +76,8 @@ const ViewClaims = ({ claims, user, pastClaims, role }: ViewClaimsProps) => {
               <ExpenseClaim
                 key={index}
                 details={claim}
-                user={user}
-                manager={(role === "manager" || role === "finance") ? true : false}
+                employee_id={employee_id}
+                manager={(permission === "MANAGER" || permission === "FINANCE") ? true : false}
                 processed={false}
               />
             ))}
@@ -90,8 +89,8 @@ const ViewClaims = ({ claims, user, pastClaims, role }: ViewClaimsProps) => {
               <ExpenseClaim
                 key={index}
                 details={claim}
-                user={user}
-                manager={(role === "manager" || role === "finance") ? true : false}
+                employee_id={employee_id}
+                manager={(permission === "MANAGER" || permission === "FINANCE") ? true : false}
                 processed={true}
               />
             ))}

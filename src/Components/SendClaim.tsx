@@ -7,7 +7,7 @@ import Button from "@/Components/Button";
 import TextArea from "@/Components/TextArea";
 import { User } from "@/types/User";
 import { Claim } from "@/types/Claim";
-import sendClaim from "@/lib/sendClaim";
+import {createClaim} from "@/lib/claimsAPI";
 
 interface FormData {
   amount: number | "";
@@ -22,7 +22,7 @@ interface SendClaimProps {
 }
 
 const SendClaim = ({
-  details: { user_id, first_name, last_name, email, phone_number, manager_id },
+  details: { employee_id, first_name, last_name, email, phone, manager_id },
 }: SendClaimProps) => {
 
   const [formData, setFormData] = useState<FormData>({
@@ -33,7 +33,7 @@ const SendClaim = ({
     acknowledgement: false,
   });
 
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | undefined>(undefined);
 
   const router = useRouter();
 
@@ -64,21 +64,16 @@ const SendClaim = ({
     if (!formData.acknowledgement) {
       alert("Please acknowledge the declaration");
     } else {
-      const claim: Claim = {
-        claim_id: "",
-        user_id: user_id,
-        manager_id: manager_id,
+      const claim: Partial<Claim> = {
+        employee_id: employee_id,
         amount: formData.amount !== "" ? formData.amount : parseFloat(formData.amount),
         currency: formData.currency,
         type: formData.type !== "" ? formData.type : "Other",
         description: formData.description,
-        status: "pending", // default status
-        date: "",
         receipt: file,
         claimed_by: first_name + " " + last_name,
-        comment: "",
       };
-      sendClaim(claim);
+      createClaim(claim);
       router.push("/home");
     }
   };
@@ -100,7 +95,7 @@ const SendClaim = ({
         </div>
         <div>
           <h2 className="font-medium">Phone Number</h2>
-          <p>{phone_number}</p>
+          <p>{phone}</p>
         </div>
       </div>
       <div className="w-[90%] md:w-[80%]">

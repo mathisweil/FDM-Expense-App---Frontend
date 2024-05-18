@@ -1,4 +1,19 @@
-const getCurrencySymbol = (currencyCode: string): string => {
+import {User} from '@/types/User';
+
+function formatPermission(permission: User['permission']): string {
+    switch (permission) {
+      case 'ADMIN':
+        return 'Admin';
+      case 'MANAGER':
+        return 'Manager';
+      case 'FINANCE':
+        return 'Finance';
+      default:
+        return 'Employee';
+    }
+  }
+
+function formatCurrency(currencyCode: string): string{
     const currencySymbols: Record<string, string> = {
       USD: "$", // United States Dollar
       EUR: "€", // Euro
@@ -16,5 +31,9 @@ const getCurrencySymbol = (currencyCode: string): string => {
   
     return currencySymbols[currencyCode] || currencyCode;
   };
+
+function formatDate(date: string): string {
+    return new Date(date).toLocaleDateString('en-GB');
+}
   
-  export default getCurrencySymbol;
+export { formatCurrency, formatPermission, formatDate };

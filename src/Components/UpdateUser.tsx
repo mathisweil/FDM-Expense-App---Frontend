@@ -5,8 +5,7 @@ import InputField from "@/Components/InputField";
 import Button from "@/Components/Button";
 import Header from "@/Components/Header";
 import { User } from "@/types/User";
-import { updateDetails } from "@/lib/updateDetails";
-import { flagPassword } from "@/lib/flagPassword";
+import { updateUser } from "@/lib/usersAPI";
 
 interface Details {
   first_name: string;
@@ -14,12 +13,12 @@ interface Details {
   email: string;
   phone_number: string;
   tax_code: string;
-  manager_id: string;
+  manager_id: number;
 }
 
 interface Address {
   address: string;
-  zip_code: string;
+  postcode: string;
   city: string;
   country: string;
 }
@@ -40,14 +39,14 @@ interface UpdateUserProps {
 
 const UpdateUser = ({
   details: {
-    user_id,
+    employee_id,
     first_name,
     last_name,
-    role,
+    permission,
     email,
-    phone_number,
+    phone,
     address,
-    zip_code,
+    postcode,
     city,
     country,
     account_number,
@@ -60,14 +59,14 @@ const UpdateUser = ({
     first_name: first_name,
     last_name: last_name,
     email: email,
-    phone_number: phone_number,
+    phone_number: phone,
     tax_code: tax_code,
     manager_id: manager_id,
   });
 
   const [fullAddress, setFullAddress] = useState<Address>({
     address: address,
-    zip_code: zip_code,
+    postcode: postcode,
     city: city,
     country: country,
   });
@@ -108,17 +107,16 @@ const UpdateUser = ({
   const handleSubmit = (fields: string) => {
     switch (fields) {
       case "details":
-        console.log("details: ", details);
-        updateDetails(user_id, details);
+        updateUser(details, employee_id);
         break;
       case "address":
-        updateDetails(user_id, fullAddress);
+        updateUser(fullAddress, employee_id);
         break;
       case "bankDetails":
-        updateDetails(user_id, bankDetails);
+        updateUser(bankDetails, employee_id);
         break;
       case "password":
-        flagPassword(user_id);
+        updateUser(bankDetails, employee_id);
         break;
       default:
         break;
@@ -183,13 +181,13 @@ const UpdateUser = ({
           />
         </div>
         <div className="md:w-[90%]">
-            <InputField
-                label="Manager ID"
-                type="text"
-                name="details-manager_id"
-                value={details.manager_id}
-                onChange={handleChange}
-            />
+          <InputField
+            label="Manager ID"
+            type="text"
+            name="details-manager_id"
+            value={details.manager_id.toString()}
+            onChange={handleChange}
+          />
         </div>
         <Button
           type="submit"
@@ -198,9 +196,12 @@ const UpdateUser = ({
         />
       </form>
       <Header title="Address" divStyle="mb-2" />
-      <form onSubmit={() => {
+      <form
+        onSubmit={() => {
           handleSubmit("address");
-        }} className="flex flex-col gap-4 md:grid md:grid-cols-2 md:place-items-center">
+        }}
+        className="flex flex-col gap-4 md:grid md:grid-cols-2 md:place-items-center"
+      >
         <div className="md:w-[90%]">
           <InputField
             label="Address"
@@ -216,7 +217,7 @@ const UpdateUser = ({
             label="Zip Code"
             type="text"
             name="address-zip_code"
-            value={fullAddress.zip_code}
+            value={fullAddress.postcode}
             onChange={handleChange}
           />
         </div>
@@ -245,9 +246,12 @@ const UpdateUser = ({
         />
       </form>
       <Header title="Bank Details" divStyle="mb-2" />
-      <form onSubmit={() => {
-            handleSubmit("bankDetails");
-          }} className="flex flex-col gap-4 md:grid md:grid-cols-2 md:place-items-center">
+      <form
+        onSubmit={() => {
+          handleSubmit("bankDetails");
+        }}
+        className="flex flex-col gap-4 md:grid md:grid-cols-2 md:place-items-center"
+      >
         <div className="md:w-[90%]">
           <InputField
             label="Account Number"
@@ -273,15 +277,18 @@ const UpdateUser = ({
         />
       </form>
       <Header title="Change Password" divStyle="mb-2" />
-      <form onSubmit={() => {
-            handleSubmit("password");
-          }} className="flex flex-col gap-4 md:grid md:grid-cols-2 md:place-items-center">
+      <form
+        onSubmit={() => {
+          handleSubmit("password");
+        }}
+        className="flex flex-col gap-4 md:grid md:grid-cols-2 md:place-items-center"
+      >
         <div className="md:w-[90%]">
           <Button
-            type="submit" 
-            text="Change Password" 
+            type="submit"
+            text="Change Password"
             onClick={() => {
-                handleSubmit("password");
+              handleSubmit("password");
             }}
             style="w-full place-self-end mb-5 mt-2 md:w-40 md:mr-6 md:mb-0 md:col-start-2"
           />

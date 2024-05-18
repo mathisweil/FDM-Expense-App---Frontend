@@ -7,7 +7,7 @@ import PieChart from "@/Components/PieChart";
 import LineChart from "@/Components/LineChart";
 import Cookies from "js-cookie";
 import { User } from "@/types/User";
-import formatRole from "@/lib/formatRole";
+import {formatPermission} from "@/lib/formatUtils";
 import { useRouter } from "next/navigation";
 
 interface UserPageProps {
@@ -16,16 +16,16 @@ interface UserPageProps {
 
 const UserPage = ({
   user: {
-    user_id,
+    employee_id,
     first_name,
     last_name,
-    role,
+    permission,
     email,
     address,
-    zip_code,
+    postcode,
     city,
     country,
-    phone_number,
+    phone,
     tax_code,
     account_number,
     sort_code,
@@ -69,8 +69,8 @@ const UserPage = ({
           <h2 className="text-xl">
             {first_name} {last_name}
           </h2>
-          <h1 className="text-xl font-semibold">{formatRole(role)}</h1>
-          <h2 className="text-xl">{user_id}</h2>
+          <h1 className="text-xl font-semibold">{formatPermission(permission)}</h1>
+          <h2 className="text-xl">{employee_id}</h2>
         </div>
         <hr className="border-3 border-black"></hr>
         <div className="flex justify-between">
@@ -85,12 +85,12 @@ const UserPage = ({
             <p>{email}</p>
             <h2 className="font-medium">Address</h2>
             <p>
-              {address}, {zip_code}, {city}, {country}
+              {address}, {postcode}, {city}, {country}
             </p>
           </div>
           <div>
             <h2 className="font-medium">Phone Number</h2>
-            <p>{phone_number}</p>
+            <p>{phone}</p>
             <h2 className="font-medium">Tax Code</h2>
             <p>{tax_code}</p>
           </div>

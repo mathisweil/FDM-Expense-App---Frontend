@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { User } from "@/types/User";
-import formatRole from "@/lib/formatRole";
+import { formatPermission } from "@/lib/formatUtils";
 
 interface UserCardProps {
   details: User;
@@ -11,14 +11,14 @@ interface UserCardProps {
 
 const UserCard = ({
   details: {
-    user_id,
+    employee_id,
     first_name,
     last_name,
-    role,
+    permission,
     email,
-    phone_number,
+    phone,
     address,
-    zip_code,
+    postcode,
     city,
     country,
     account_number,
@@ -39,8 +39,8 @@ const UserCard = ({
           <h2 className="w-[47%] md:w-[30%] text-left">
             {first_name} {last_name}
           </h2>
-          <h1 className="font-semibold w-[42%] md:w-[40%]">{role}</h1>
-          <h2 className="w-[8%] md:w-[30%] text-right">{user_id}</h2>
+          <h1 className="font-semibold w-[42%] md:w-[40%]">{formatPermission(permission)}</h1>
+          <h2 className="w-[8%] md:w-[30%] text-right">{employee_id}</h2>
         </div>
         <Image
           src={`/${isOpen ? "drop_up" : "drop_down"}.svg`}
@@ -62,11 +62,13 @@ const UserCard = ({
             <h2 className="font-medium">Email</h2>
             <p>{email}</p>
             <h2 className="font-medium">Address</h2>
-            <p>{address}, {city}, {zip_code}, {country}</p>
+            <p>
+              {address}, {city}, {postcode}, {country}
+            </p>
           </div>
           <div>
             <h2 className="font-medium">Phone Number</h2>
-            <p>{phone_number}</p>
+            <p>{phone}</p>
             <h2 className="font-medium">Tax Code</h2>
             <p>{tax_code}</p>
           </div>
@@ -80,7 +82,7 @@ const UserCard = ({
         </div>
         {admin && (
           <Link
-            href={`/ADMIN/view_users/${user_id}`}
+            href={`/ADMIN/view_users/${employee_id}`}
             className="py-1 rounded-lg text-center bg-fdm-gradient text-white hover:scale-[1.005] transition-transform duration-300 hover:shadow w-full"
             passHref
           >

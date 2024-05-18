@@ -6,15 +6,13 @@ import Button from "./Button";
 import TextArea from "./TextArea";
 import { Claim } from "@/types/Claim";
 import { User } from "@/types/User";
-import updateClaim from "@/lib/updateClaim";
+import { updateClaim } from "@/lib/claimsAPI";
 
 interface claimProps {
   details: Claim;
-  user: User;
+  employee_id: number;
   manager: boolean;
   processed: boolean;
-  onProcess?: () => void;
-  onReject?: () => void;
 }
 
 const ExpenseClaim = ({
@@ -31,38 +29,44 @@ const ExpenseClaim = ({
     approved_on,
     comment,
   },
-  user: { first_name, last_name },
+  employee_id,
   manager,
   processed,
 }: claimProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [addComment, setAddComment] = useState("");
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (!receipt) {
       alert("No receipt found");
       return;
     }
+    console.log(receipt);
+    const fileUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/receipts/Screenshot_2024-04-16_at_17.17.52.png`;
+    const fileName = "Screenshot_2024-04-16_at_17.17.52.png";
 
-    // Directly create a URL for the File object without using state
-    const url = URL.createObjectURL(receipt);
-
-    // Create a temporary anchor element
-    const a = document.createElement("a");
-
-    // Set the href to the file URL and define a dynamic download filename
-    a.href = url;
-    a.download = `receipt_${claim_id}.txt`; // Customize the file name with claim_id
-
-    // Append the anchor to the document
-    document.body.appendChild(a);
-
-    // Programmatically click the anchor to trigger the download
-    a.click();
-
-    // Clean up by revoking the object URL and removing the anchor from the document
-    URL.revokeObjectURL(url);
-    document.body.removeChild(a);
+    try {
+      const response = await fetch(fileUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/octet-stream",
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading the file:", error);
+    }
   };
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -73,20 +77,10 @@ const ExpenseClaim = ({
     const userConfirmed = confirm("Are you sure you want to proceed?");
     if (userConfirmed) {
       const claim: Partial<Claim> = {
-        claim_id: claim_id,
-        status: manager === "manager" ? "approved" : "processed",
-        approved_by: manager === "manager" ? first_name + " " + last_name : "",
-        approved_on:
-          manager === "manager"
-            ? new Date().toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })
-            : "",
+        status: manager === "manager" ? "APPROVED" : "PROCESSED",
         comment: comment,
       };
-      updateClaim(claim);
+      updateClaim(claim, claim_id, employee_id);
     }
   };
 
@@ -94,13 +88,10 @@ const ExpenseClaim = ({
     const userConfirmed = confirm("Are you sure you want to proceed?");
     if (userConfirmed) {
       const claim: Partial<Claim> = {
-        claim_id: claim_id,
-        status: manager === "manager" ? "rejected" : "rejectedF",
-        approved_by: "",
-        approved_on: "",
+        status: manager === "manager" ? "REJECTED" : "REJECTEDF",
         comment: comment,
       };
-      updateClaim(claim);
+      updateClaim(claim, claim_id, employee_id);
     }
   };
 
@@ -164,13 +155,13 @@ const ExpenseClaim = ({
             <h2 className="font-medium">Claimed on</h2>
             <p>{date}</p>
           </div>
-          {manager && approved_by !== "" && (
+          {manager && approved_by && (
             <div className="flex md:block justify-between">
               <h2 className="font-medium">Approved by</h2>
               <p>{approved_by}</p>
             </div>
           )}
-          {manager && approved_by !== "" && (
+          {manager && approved_by && (
             <div className="flex justify-between md:block">
               <h2 className="font-medium">Approved on</h2>
               <p>{approved_on}</p>
@@ -190,17 +181,17 @@ const ExpenseClaim = ({
         </div>
         <div className="ml-12 mr-4">
           {comment && <h2 className="mb-2 text-left font-medium">{comment}</h2>}
-          {(status === "rejected" || status === "approved") && processed && (
+          {(status === "REJECTED" || status === "APPROVED") && processed && (
             <h2
               className={`md:text-sm text-xs pb-2 ml-[-8px] text-left ${
-                status === "rejected" ? "text-[#e74c3c]" : "text-[#4CAF50]"
+                status === "REJECTED" ? "text-[#e74c3c]" : "text-[#4CAF50]"
               }`}
             >
               This claim has been {status}.
             </h2>
           )}
         </div>
-        {(!processed && manager) && (
+        {!processed && manager && (
           <>
             <div className="mx-2">
               <textarea

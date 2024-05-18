@@ -1,29 +1,24 @@
 import ViewClaims from "@/Components/ViewClaims";
-import { fetchClaims } from "@/lib/fetchClaims";
+import { getClaims } from "@/lib/claimsAPI";
 import { Claim } from "@/types/Claim";
-import { fetchUser } from "@/lib/fetchUser";
-import { NextRequest } from "next/server";
 
 export default async function FinanceClaim({
   params,
 }: {
-  params: { userID: string };
+  params: { userID: number };
 }) {
-  console.log(params.userID);
-  const role = "finance";
+  const permission = "FINANCE";
 
-  const claims: Claim[] = await fetchClaims(role, params.userID, true); // change arguments
-  const pastClaims: Claim[] = await fetchClaims(role, params.userID, false); // change arguments
-
-  const user = await fetchUser(params.userID); // change arguments
+  const currentClaims: Claim[] = await getClaims(permission, params.userID, true);
+  const pastClaims: Claim[] = await getClaims(permission, params.userID, false);
 
   return (
     <div className="flex flex-col gap-2 my-2 md:my-0 md:gap-0 md:grid md:grid-cols-[auto_1fr]">
       <ViewClaims
-        claims={claims}
-        user={user}
+        claims={currentClaims}
+        employee_id={params.userID}
         pastClaims={pastClaims}
-        role={role}
+        permission={permission}
       />
     </div>
   );
