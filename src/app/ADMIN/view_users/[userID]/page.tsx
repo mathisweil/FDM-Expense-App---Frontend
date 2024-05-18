@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import UpdateUserDetails from "@/Components/UpdateUser";
+import { User } from "@/types/User";
 import { getUser } from "@/lib/usersAPI";
 import { formatPermission } from "@/lib/formatUtils";
 
 export default async function Post({ params }: { params: { userID: number } }) {
-  const details = await getUser(params.userID);
+  const details: User = await getUser(params.userID);
 
   return (
     <div className="bg-gray-100 md:p-[5%]">

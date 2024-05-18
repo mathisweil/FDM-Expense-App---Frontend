@@ -1,5 +1,6 @@
 import Header from "@/Components/Header";
 import SendClaim from "@/Components/SendClaim";
+import { User } from "@/types/User";
 import { getUser } from "@/lib/usersAPI";
 
 export default async function ExpenseClaim({
@@ -7,7 +8,7 @@ export default async function ExpenseClaim({
 }: {
   params: { userID: number };
 }) {
-  const details = await getUser(params.userID);
+  const details: User = await getUser(params.userID);
 
   return (
     <div className="flex flex-col justify-evenly md:mx-[10%]">

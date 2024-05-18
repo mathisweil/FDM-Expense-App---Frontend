@@ -1,9 +1,11 @@
-import { fetchUsers } from "@/lib/fetchUsers";
 import ViewUsers from "@/Components/ViewUsers";
 import { User } from "@/types/User";
+import { getUsers } from "@/lib/usersAPI";
 
 export default async function UserList() {
-  const users: User[] = await fetchUsers("user-info");
+  const permission = 'ADMIN';
+
+  const users: User[] = await getUsers(permission, 0);
 
   return (
     <div className="flex flex-col gap-2">
