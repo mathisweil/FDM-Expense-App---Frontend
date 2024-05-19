@@ -32,8 +32,13 @@ function formatCurrency(currencyCode: string): string{
     return currencySymbols[currencyCode] || currencyCode;
   };
 
-function formatDate(date: string): string {
-    return new Date(date).toLocaleDateString('en-GB');
-}
+  function formatDate(date: string): string {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    };
+    return new Date(date).toLocaleDateString('en-GB', options);
+  }
   
 export { formatCurrency, formatPermission, formatDate };

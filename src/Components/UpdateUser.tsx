@@ -11,7 +11,7 @@ interface Details {
   first_name: string;
   last_name: string;
   email: string;
-  phone_number: string;
+  phone: string;
   tax_code: string;
   manager_id: number;
 }
@@ -59,7 +59,7 @@ const UpdateUser = ({
     first_name: first_name,
     last_name: last_name,
     email: email,
-    phone_number: phone,
+    phone: phone,
     tax_code: tax_code,
     manager_id: manager_id,
   });
@@ -166,8 +166,8 @@ const UpdateUser = ({
           <InputField
             label="Phone Number"
             type="tel"
-            name="details-phone_number"
-            value={details.phone_number}
+            name="details-phone"
+            value={details.phone}
             onChange={handleChange}
           />
         </div>
@@ -216,7 +216,7 @@ const UpdateUser = ({
           <InputField
             label="Zip Code"
             type="text"
-            name="address-zip_code"
+            name="address-postcode"
             value={fullAddress.postcode}
             onChange={handleChange}
           />

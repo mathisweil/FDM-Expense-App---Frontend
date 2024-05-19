@@ -66,8 +66,8 @@ async function getUser(
   employee_id: number
 ): Promise<User> {
   try {
-    const response: AxiosResponse<User> = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/get-user/${employee_id}`,
+    const response: AxiosResponse<User> = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/get-user/${employee_id}/`,
 
       {
         withCredentials: true,

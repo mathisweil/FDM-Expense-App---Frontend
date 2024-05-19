@@ -73,23 +73,23 @@ const ExpenseClaim = ({
     setAddComment(e.target.value);
   };
 
-  const acceptClaim = (manager: "manager" | "finance") => {
+  const acceptClaim = (manager: "MANAGER" | "FINANCE") => {
     const userConfirmed = confirm("Are you sure you want to proceed?");
     if (userConfirmed) {
       const claim: Partial<Claim> = {
-        status: manager === "manager" ? "APPROVED" : "PROCESSED",
-        comment: comment,
+        status: manager === "MANAGER" ? "APPROVED" : "PROCESSED",
+        comment: addComment,
       };
       updateClaim(claim, claim_id, employee_id);
     }
   };
 
-  const rejectClaim = (manager: "manager" | "finance") => {
+  const rejectClaim = (manager: "MANAGER" | "FINANCE") => {
     const userConfirmed = confirm("Are you sure you want to proceed?");
     if (userConfirmed) {
       const claim: Partial<Claim> = {
-        status: manager === "manager" ? "REJECTED" : "REJECTEDF",
-        comment: comment,
+        status: manager === "MANAGER" ? "REJECTED" : "REJECTEDF",
+        comment: addComment,
       };
       updateClaim(claim, claim_id, employee_id);
     }
@@ -206,15 +206,15 @@ const ExpenseClaim = ({
             <div className="flex w-full p-2 gap-1">
               <Button
                 text={`${
-                  approved_by !== "" || approved_on !== ""
+                  approved_by || approved_on
                     ? "Process"
                     : "Approve"
                 } Claim`}
                 onClick={() => {
                   acceptClaim(
-                    approved_by !== "" || approved_on !== ""
-                      ? "finance"
-                      : "manager"
+                    approved_by || approved_on
+                      ? "FINANCE"
+                      : "MANAGER"
                   );
                 }}
                 style="w-1/2"
@@ -223,9 +223,9 @@ const ExpenseClaim = ({
                 text="Reject Claim"
                 onClick={() => {
                   rejectClaim(
-                    approved_by !== "" || approved_on !== ""
-                      ? "finance"
-                      : "manager"
+                    approved_by || approved_on
+                      ? "FINANCE"
+                      : "MANAGER"
                   );
                 }}
                 style="w-1/2"

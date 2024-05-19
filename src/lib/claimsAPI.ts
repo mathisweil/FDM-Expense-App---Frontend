@@ -4,13 +4,14 @@ import { formatCurrency, formatDate } from "@/lib/formatUtils";
 
 async function createClaim(claim: Partial<Claim>): Promise<Claim> {
   try {
+    console.log(claim);
     const response: AxiosResponse<Claim> = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/claims/send-claim/`,
       claim,
       {
         withCredentials: true,
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": 'multipart/form-data',
         },
       }
     );
@@ -51,6 +52,7 @@ async function getClaims(
     const transformedClaims = claimsArray.map((claim) => ({
       ...claim,
       currency: formatCurrency(claim.currency),
+      date: formatDate(claim.date),
       approved_on: claim.approved_on ? formatDate(claim.approved_on) : undefined,
     }));
 

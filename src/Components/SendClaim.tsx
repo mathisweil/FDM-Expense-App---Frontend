@@ -10,7 +10,7 @@ import { Claim } from "@/types/Claim";
 import {createClaim} from "@/lib/claimsAPI";
 
 interface FormData {
-  amount: number | "";
+  amount: number;
   currency: string;
   type: "Travel" | "Meal" | "Night Stay" | "Gift" | "Other" | "";
   description: string;
@@ -26,14 +26,14 @@ const SendClaim = ({
 }: SendClaimProps) => {
 
   const [formData, setFormData] = useState<FormData>({
-    amount: "",
+    amount: 0,
     currency: "GBP",
     type: "",
     description: "",
     acknowledgement: false,
   });
 
-  const [file, setFile] = useState<File | undefined>(undefined);
+  const [receipt, setReceipt] = useState<File | undefined>(undefined);
 
   const router = useRouter();
 
@@ -43,20 +43,19 @@ const SendClaim = ({
     const { name, value, type } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      // Use a ternary operator to handle the checkbox separately
       [name]:
         type === "checkbox" ? (e.target as HTMLInputElement).checked : type === "number" ? (value !== '' ? parseFloat(value) : '') : value,
     }));
   };
 
    //function that stores the image file
-   function handleImageChange(e: FormEvent<HTMLInputElement>){
+   function handleUploadFile(e: FormEvent<HTMLInputElement>){
     const target = e.target as HTMLInputElement &{
       files: FileList;
     }
 
     console.log('file', target.files[0])
-    setFile(target.files[0])
+    setReceipt(target.files[0])
     
   }
 
@@ -66,21 +65,20 @@ const SendClaim = ({
     } else {
       const claim: Partial<Claim> = {
         employee_id: employee_id,
-        amount: formData.amount !== "" ? formData.amount : parseFloat(formData.amount),
+        amount: formData.amount,
         currency: formData.currency,
         type: formData.type !== "" ? formData.type : "Other",
         description: formData.description,
-        receipt: file,
+        receipt: receipt,
         claimed_by: first_name + " " + last_name,
       };
       createClaim(claim);
-      router.push("/home");
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col justify-between gap-2 items-center rounded min-h-[850px] h-dvh md:justify-evenly md:min-h-[750px] md:bg-[#D9D9D9] md:shadow-md md:h-[125vh]">
-      <div className="grid grid-cols-2 w-[90%] md:flex md:justify-between md:w-[80%]">
+      <div className="flex gap-10 w-[90%] md:gap-20 md:justify-center md:w-[80%]">
         <div>
           <h2 className="font-medium">First Name</h2>
           <p>{first_name}</p>
@@ -88,14 +86,6 @@ const SendClaim = ({
         <div>
           <h2 className="font-medium">Last Name</h2>
           <p>{last_name}</p>
-        </div>
-        <div className="order-last">
-          <h2 className="font-medium">Email</h2>
-          <p>{email}</p>
-        </div>
-        <div>
-          <h2 className="font-medium">Phone Number</h2>
-          <p>{phone}</p>
         </div>
       </div>
       <div className="w-[90%] md:w-[80%]">
@@ -169,31 +159,8 @@ const SendClaim = ({
         onChange={handleChange}
       />
       <div className="grid grid-rows-2 auto-cols-auto gap-1 w-[90%] md:w-[80%]">
-        <label
-          htmlFor="file-upload"
-          className="text-sm row-start-1 col-start-1"
-        >
-          Upload Receipts/Documents
-        </label>
-        <p className="text-xs text-gray-500 row-start-2 col-start-1">
-          Formats accepted: PDF, PNG, JPG. Allow multiple files
-        </p>
-        <input
-          id="file-upload"
-          name="file-upload"
-          type="file"
-          multiple
-          onClick={handleImageChange}
-          className="hidden"
-          aria-describedby="file-upload-description"
-          required
-        />
-        <label
-          htmlFor="file-upload"
-          className="cursor-pointer row-span-2 col-start-2 justify-self-end place-self-center"
-        >
-          <Image src={"/upload.svg"} alt="Login" width={50} height={50} />
-        </label>
+        <label htmlFor="receipt" className="font-medium"/>
+        <input type="file" id="receipt" name="receipt" onChange={handleUploadFile}/>
       </div>
       <div className="flex items-center w-[90%] md:w-[80%]">
         <input
