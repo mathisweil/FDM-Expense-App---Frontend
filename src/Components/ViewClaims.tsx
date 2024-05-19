@@ -16,7 +16,12 @@ interface ViewClaimsProps {
   employee_id: number;
 }
 
-const ViewClaims = ({ claims, employee_id, pastClaims, permission }: ViewClaimsProps) => {
+const ViewClaims = ({
+  claims,
+  employee_id,
+  pastClaims,
+  permission,
+}: ViewClaimsProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const handleFilterChange = (
     filters: Record<string, boolean | number[] | number>
@@ -37,31 +42,27 @@ const ViewClaims = ({ claims, employee_id, pastClaims, permission }: ViewClaimsP
 
   return (
     <>
-      <aside
-        className={`${
-          isOpen ? "" : "hidden"
-        } border-t md:border-r-black md:min-w-[160px] md:max-w-[200px] md:border-2 md:row-start-1 md:row-span-2 md:col-start-1 md:block`}
-      >
+      <aside className={`${isOpen ? "" : "hidden"} md:block md:col-start-1 md:row-span-2 md:row-start-1 md:b`}>
         <FilterMenu onFilterChange={handleFilterChange} />
       </aside>
-      <div className="order-first flex flex-row gap-4 items-center justify-between mx-1 md:items-baseline md:col-start-2">
+      <div className="order-first flex gap-4 items-center md:justify-between md:col-start-2 md:px-2 md:h-fit">
         <Header title="Claims" divStyle="hidden md:block" />
         <Image
           src={`/menu${isOpen ? "_open" : ""}.svg`}
           onClick={() => setIsOpen(!isOpen)}
           alt="Filter"
-          width={60}
-          height={60}
+          width={70}
+          height={70}
           className="md:hidden cursor-pointer"
         />
         <SearchBar
           placeholder="Search Claims"
           value=""
           handleChange={handleSearch}
-          divStyle="w-full md:w-[40%]"
+          divStyle="w-full md:w-[50%]"
         />
       </div>
-      <main className="order-last mx-1 md:mx-3 md:col-start-2">
+      <main className="order-last md:col-start-2 md:px-2">
         <div className="flex flex-col gap-1 mb-2">
           <h2 className="mb-1">
             {permission === "FINANCE"
@@ -77,7 +78,11 @@ const ViewClaims = ({ claims, employee_id, pastClaims, permission }: ViewClaimsP
                 key={index}
                 details={claim}
                 employee_id={employee_id}
-                manager={(permission === "MANAGER" || permission === "FINANCE") ? true : false}
+                manager={
+                  permission === "MANAGER" || permission === "FINANCE"
+                    ? true
+                    : false
+                }
                 processed={false}
               />
             ))}
@@ -90,7 +95,11 @@ const ViewClaims = ({ claims, employee_id, pastClaims, permission }: ViewClaimsP
                 key={index}
                 details={claim}
                 employee_id={employee_id}
-                manager={(permission === "MANAGER" || permission === "FINANCE") ? true : false}
+                manager={
+                  permission === "MANAGER" || permission === "FINANCE"
+                    ? true
+                    : false
+                }
                 processed={true}
               />
             ))}

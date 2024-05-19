@@ -112,8 +112,7 @@ const ExpenseClaim = ({
           <div className="ml-2 text-left md:ml-3">
             <h1 className="text-lg">{type}</h1>
             <p className="text-sm text-gray-500">
-              {claimed_by && `${claimed_by}, `}
-              {date}
+              {manager ? (claimed_by + ", " + date) : date}
             </p>
           </div>
         </div>
@@ -130,8 +129,8 @@ const ExpenseClaim = ({
           </h1>
         </div>
       </button>
-      <div className={`${isOpen ? "" : "hidden"} text-gray-600`}>
-        <div className="flex flex-col gap-1 grid-rows-2  text-left pb-2  ml-9 mr-5 whitespace-nowrap md:grid md:grid-cols-[2fr_2fr_2fr_2fr] md:ml-12">
+      <div className={`${isOpen ? "" : "hidden"} text-gray-600 pb-3`}>
+        <div className="flex flex-col gap-1 grid-rows-2 mx-6 whitespace-nowrap md:flex-row md:flex-wrap md:justify-between">
           <div className="flex justify-between md:block">
             <h2 className="font-medium">Amount</h2>
             <p>
@@ -179,11 +178,11 @@ const ExpenseClaim = ({
             />
           </div>
         </div>
-        <div className="ml-12 mr-4">
-          {comment && <h2 className="mb-2 text-left font-medium">{comment}</h2>}
+        <div className="ml-6 mt-2">
+          {manager && comment && <h2 className=""><span className="font-medium">Comment: </span>{comment}</h2>}
           {(status === "REJECTED" || status === "APPROVED") && processed && (
             <h2
-              className={`md:text-sm text-xs pb-2 ml-[-8px] text-left ${
+              className={`md:text-sm text-xs mt-2 ${
                 status === "REJECTED" ? "text-[#e74c3c]" : "text-[#4CAF50]"
               }`}
             >
@@ -193,7 +192,7 @@ const ExpenseClaim = ({
         </div>
         {!processed && manager && (
           <>
-            <div className="mx-2">
+            <div className="mx-2 mt-4">
               <textarea
                 id="comment"
                 name="comment"
@@ -203,7 +202,7 @@ const ExpenseClaim = ({
                 className="pl-2 py-1 border-2 border-b-4 border-black rounded-sm shadow h-[50px] w-full"
               />
             </div>
-            <div className="flex w-full p-2 gap-1">
+            <div className="flex w-full gap-1 px-2">
               <Button
                 text={`${
                   approved_by || approved_on
