@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import Button from "@/Components/Button";
+import Button from "@/components/Button";
 import Image from "next/image";
-import PieChart from "@/Components/PieChart";
-import LineChart from "@/Components/LineChart";
+import PieChart from "@/components/PieChart";
+import LineChart from "@/components/LineChart";
 import Cookies from "js-cookie";
 import { User } from "@/types/User";
-import {formatPermission} from "@/lib/formatUtils";
+import { formatPermission } from "@/utils/formatUtils";
 import { useRouter } from "next/navigation";
 
 interface UserPageProps {
@@ -69,7 +69,9 @@ const UserPage = ({
           <h2 className="text-xl">
             {first_name} {last_name}
           </h2>
-          <h1 className="text-xl font-semibold">{formatPermission(permission)}</h1>
+          <h1 className="text-xl font-semibold">
+            {formatPermission(permission)}
+          </h1>
           <h2 className="text-xl">{employee_id}</h2>
         </div>
         <hr className="border-3 border-black"></hr>

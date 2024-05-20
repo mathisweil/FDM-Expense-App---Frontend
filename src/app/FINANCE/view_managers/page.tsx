@@ -1,5 +1,5 @@
 import { getUsers } from "@/lib/usersAPI";
-import ViewUsers from "@/Components/ViewUsers";
+import ViewUsers from "@/components/ViewUsers";
 import { User } from "@/types/User";
 
 export default async function ManagerList() {

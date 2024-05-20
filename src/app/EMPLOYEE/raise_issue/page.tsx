@@ -1,10 +1,9 @@
 "use client";
 import { useState, ChangeEvent, FormEvent } from "react";
-import Header from "@/Components/Header";
-import Button from "@/Components/Button";
-import TextArea from "@/Components/TextArea";
-import InputField from "@/Components/InputField";
-
+import Header from "@/components/Header";
+import Button from "@/components/Button";
+import TextArea from "@/components/TextArea";
+import InputField from "@/components/InputField";
 
 interface FormData {
   title: string;
@@ -12,7 +11,6 @@ interface FormData {
 }
 
 const Issue = () => {
-
   const [formData, setFormData] = useState<FormData>({
     title: "",
     description: "",

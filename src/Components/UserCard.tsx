@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { User } from "@/types/User";
-import { formatPermission } from "@/lib/formatUtils";
+import { formatPermission } from "@/utils/formatUtils";
 
 interface UserCardProps {
   details: User;
@@ -39,7 +39,9 @@ const UserCard = ({
           <h2 className="w-[47%] md:w-[30%] text-left">
             {first_name} {last_name}
           </h2>
-          <h1 className="font-semibold w-[42%] md:w-[40%]">{formatPermission(permission)}</h1>
+          <h1 className="font-semibold w-[42%] md:w-[40%]">
+            {formatPermission(permission)}
+          </h1>
           <h2 className="w-[8%] md:w-[30%] text-right">{employee_id}</h2>
         </div>
         <Image

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Notification from "@/Components/Notification";
+import Notification from "@/components/Notification";
 
 interface Notification {
   title: string;
@@ -14,7 +14,6 @@ interface NotificationData {
 }
 
 const ResolveIssues = ({ notifications }: NotificationData) => {
-
   return (
     <div className="flex flex-col gap-2">
       {notifications.map((notification, index) => (

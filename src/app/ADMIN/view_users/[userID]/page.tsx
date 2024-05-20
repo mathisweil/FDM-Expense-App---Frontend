@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import UpdateUserDetails from "@/Components/UpdateUser";
+import UpdateUserDetails from "@/components/UpdateUser";
 import { User } from "@/types/User";
 import { getUser } from "@/lib/usersAPI";
-import { formatPermission } from "@/lib/formatUtils";
+import { formatPermission } from "@/utils/formatUtils";
 
 export default async function Post({ params }: { params: { userID: number } }) {
   const details: User = await getUser(params.userID);

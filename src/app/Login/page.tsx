@@ -2,9 +2,9 @@
 
 import { useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import InputField from "@/Components/InputField";
-import Button from "@/Components/Button";
-import Header from "@/Components/Header";
+import InputField from "@/components/InputField";
+import Button from "@/components/Button";
+import Header from "@/components/Header";
 import Link from "next/link";
 
 const Login = () => {
@@ -29,11 +29,16 @@ const Login = () => {
       } else {
         // Handling HTTP error statuses gracefully.
         const errorData = await response.json();
-        alert(errorData.message || "An error occurred during login. Please try again.");
+        alert(
+          errorData.message ||
+            "An error occurred during login. Please try again."
+        );
       }
     } catch (error) {
       console.error("An unexpected error occurred:", error);
-      alert("Failed to log in. Please check your internet connection and try again.");
+      alert(
+        "Failed to log in. Please check your internet connection and try again."
+      );
     }
   };
 

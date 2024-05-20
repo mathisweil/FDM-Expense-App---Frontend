@@ -1,4 +1,4 @@
-import UserPage from "@/Components/UserPage";
+import UserPage from "@/components/UserPage";
 import { getUser } from "@/lib/usersAPI";
 
 export default async function User({ params }: { params: { userID: number } }) {

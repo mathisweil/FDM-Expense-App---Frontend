@@ -1,8 +1,6 @@
 import axios, { AxiosResponse } from "axios";
-import { Claim } from "@/types/Claim";
-import { formatCurrency, formatDate } from "@/utils/formatUtils";
 
-async function createClaim(claim: Partial<Claim>): Promise<Claim> {
+async function createNotification(claim: Partial<Claim>): Promise<Claim> {
   try {
     console.log(claim);
     const response: AxiosResponse<Claim> = await axios.post(
@@ -11,7 +9,7 @@ async function createClaim(claim: Partial<Claim>): Promise<Claim> {
       {
         withCredentials: true,
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": 'multipart/form-data',
         },
       }
     );
@@ -32,7 +30,7 @@ async function createClaim(claim: Partial<Claim>): Promise<Claim> {
   }
 }
 
-async function getClaims(
+async function getNotifications(
   permission: string,
   employee_id: number,
   current: boolean
@@ -45,20 +43,11 @@ async function getClaims(
       { withCredentials: true }
     );
 
-    const claimsArray: Claim[] = Array.isArray(response.data)
+    const notificationsArray: Claim[] = Array.isArray(response.data)
       ? response.data
       : [response.data];
 
-    const transformedClaims = claimsArray.map((claim) => ({
-      ...claim,
-      currency: formatCurrency(claim.currency),
-      date: formatDate(claim.date),
-      approved_on: claim.approved_on
-        ? formatDate(claim.approved_on)
-        : undefined,
-    }));
-
-    return transformedClaims;
+    return notificationsArray;
   } catch (error: any) {
     if (error.response) {
       // Server responded with a status other than 200 range
@@ -74,40 +63,7 @@ async function getClaims(
   }
 }
 
-async function updateClaim(
-  claim: Partial<Claim>,
-  claim_id: number,
-  employee_id: number
-) {
-  try {
-    const response: AxiosResponse<Claim> = await axios.patch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/claims/update-claim/${claim_id}/${employee_id}/`,
-      claim,
-      {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    return response.data;
-  } catch (error: any) {
-    if (error.response) {
-      // Server responded with a status other than 200 range
-      console.error("Server error:", error.response.data);
-    } else if (error.request) {
-      // Request was made but no response received
-      console.error("Network error:", error.request);
-    } else {
-      // Something else happened while setting up the request
-      console.error("Error:", error.message);
-    }
-    throw error;
-  }
-}
-
-async function deleteClaim(claim_id: number) {
+async function deleteNotification(claim_id: number) {
   try {
     const response: AxiosResponse<Claim | Claim[]> = await axios.delete(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/claims/delete-claim/${claim_id}/`,
@@ -132,4 +88,4 @@ async function deleteClaim(claim_id: number) {
   }
 }
 
-export { createClaim, getClaims, updateClaim, deleteClaim };
+export { createNotification, getNotifications, deleteNotification };

@@ -1,4 +1,4 @@
-import ViewClaims from "@/Components/ViewClaims";
+import ViewClaims from "@/components/ViewClaims";
 import { getClaims } from "@/lib/claimsAPI";
 import { Claim } from "@/types/Claim";
 
@@ -9,7 +9,11 @@ export default async function FinanceClaim({
 }) {
   const permission = "FINANCE";
 
-  const currentClaims: Claim[] = await getClaims(permission, params.userID, true);
+  const currentClaims: Claim[] = await getClaims(
+    permission,
+    params.userID,
+    true
+  );
   const pastClaims: Claim[] = await getClaims(permission, params.userID, false);
 
   return (

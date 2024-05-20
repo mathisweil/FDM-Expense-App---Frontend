@@ -1,8 +1,7 @@
-import HomeCard from "@/Components/HomeCard";
+import HomeCard from "@/components/HomeCard";
 
 export default function Home() {
-
-    return (
+  return (
     <div className="flex flex-col items-center gap-4 my-7 md:grid md:grid-cols-2">
       <HomeCard
         href="/ADMIN/view_users"
@@ -23,5 +22,5 @@ export default function Home() {
         layout="w-[90%] min-w-44 md:place-self-start md:row-start-2 md:w-[250px]"
       />
     </div>
-    );
+  );
 }

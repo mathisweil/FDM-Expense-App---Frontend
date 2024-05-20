@@ -2,12 +2,11 @@
 
 import Image from "next/image";
 import { useState, ChangeEvent } from "react";
-import Header from "@/Components/Header";
-import FilterMenu from "@/Components/FilterMenu";
-import SearchBar from "@/Components/SearchBar";
-import ExpenseClaim from "@/Components/ExpenseClaim";
+import Header from "@/components/Header";
+import FilterMenu from "@/components/FilterMenu";
+import SearchBar from "@/components/SearchBar";
+import ExpenseClaim from "@/components/ExpenseClaim";
 import { Claim } from "@/types/Claim";
-import { User } from "@/types/User";
 
 interface ViewClaimsProps {
   claims: Claim[];
@@ -34,15 +33,13 @@ const ViewClaims = ({
     // Add search logic here
   };
 
-  // Handler for processing a claim
-  const handleProcess = (id: string) => {};
-
-  // Handler for rejecting a claim
-  const handleReject = (id: string) => {};
-
   return (
     <>
-      <aside className={`${isOpen ? "" : "hidden"} md:block md:col-start-1 md:row-span-2 md:row-start-1 md:b`}>
+      <aside
+        className={`${
+          isOpen ? "" : "hidden"
+        } md:block md:col-start-1 md:row-span-2 md:row-start-1 md:b`}
+      >
         <FilterMenu onFilterChange={handleFilterChange} />
       </aside>
       <div className="order-first flex gap-4 items-center md:justify-between md:col-start-2 md:px-2 md:h-fit">

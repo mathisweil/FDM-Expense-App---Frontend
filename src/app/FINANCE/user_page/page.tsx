@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import PieChart from "@/Components/PieChart";
-import LineChart from "@/Components/LineChart";
-import Button from "@/Components/Button";
+import PieChart from "@/components/PieChart";
+import LineChart from "@/components/LineChart";
+import Button from "@/components/Button";
 
 const Page = () => {
   const categories = ["Travel", "Meal", "Night Stay", "Gift"];

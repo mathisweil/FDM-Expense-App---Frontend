@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import IssueBox from "@/Components/IssueBox";
+import IssueBox from "@/components/IssueBox";
 
 interface Issue {
   title: string;

@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, ChangeEvent } from "react";
-import Header from "@/Components/Header";
-import SearchBar from "@/Components/SearchBar";
-import UserCard from "@/Components/UserCard";
+import Header from "@/components/Header";
+import SearchBar from "@/components/SearchBar";
+import UserCard from "@/components/UserCard";
 import { User } from "@/types/User";
 
 interface ViewUsersProps {
-  users: User[]
-  admin: boolean
+  users: User[];
+  admin: boolean;
 }
 
 const ViewUsers = ({ users, admin }: ViewUsersProps) => {
@@ -31,12 +31,8 @@ const ViewUsers = ({ users, admin }: ViewUsersProps) => {
       </div>
       <main className="mx-2">
         <div className="flex flex-col gap-1 mb-2">
-        {users.map((user, index) => (
-            <UserCard
-              key={index}
-              details={user}
-              admin={admin}
-            />
+          {users.map((user, index) => (
+            <UserCard key={index} details={user} admin={admin} />
           ))}
         </div>
       </main>

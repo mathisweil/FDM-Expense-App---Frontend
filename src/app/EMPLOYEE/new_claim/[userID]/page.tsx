@@ -1,5 +1,5 @@
-import Header from "@/Components/Header";
-import SendClaim from "@/Components/SendClaim";
+import Header from "@/components/Header";
+import SendClaim from "@/components/SendClaim";
 import { User } from "@/types/User";
 import { getUser } from "@/lib/usersAPI";
 

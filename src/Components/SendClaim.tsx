@@ -1,13 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, ChangeEvent, FormEvent } from "react";
-import Button from "@/Components/Button";
-import TextArea from "@/Components/TextArea";
+import Button from "@/components/Button";
+import TextArea from "@/components/TextArea";
 import { User } from "@/types/User";
 import { Claim } from "@/types/Claim";
-import {createClaim} from "@/lib/claimsAPI";
+import { createClaim } from "@/lib/claimsAPI";
 
 interface FormData {
   amount: number;
@@ -24,7 +23,6 @@ interface SendClaimProps {
 const SendClaim = ({
   details: { employee_id, first_name, last_name, email, phone, manager_id },
 }: SendClaimProps) => {
-
   const [formData, setFormData] = useState<FormData>({
     amount: 0,
     currency: "GBP",
@@ -44,19 +42,24 @@ const SendClaim = ({
     setFormData((prevState) => ({
       ...prevState,
       [name]:
-        type === "checkbox" ? (e.target as HTMLInputElement).checked : type === "number" ? (value !== '' ? parseFloat(value) : '') : value,
+        type === "checkbox"
+          ? (e.target as HTMLInputElement).checked
+          : type === "number"
+          ? value !== ""
+            ? parseFloat(value)
+            : ""
+          : value,
     }));
   };
 
-   //function that stores the image file
-   function handleUploadFile(e: FormEvent<HTMLInputElement>){
-    const target = e.target as HTMLInputElement &{
+  //function that stores the image file
+  function handleUploadFile(e: FormEvent<HTMLInputElement>) {
+    const target = e.target as HTMLInputElement & {
       files: FileList;
-    }
+    };
 
-    console.log('file', target.files[0])
-    setReceipt(target.files[0])
-    
+    console.log("file", target.files[0]);
+    setReceipt(target.files[0]);
   }
 
   const handleSubmit = () => {
@@ -77,7 +80,10 @@ const SendClaim = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col justify-between gap-2 items-center rounded min-h-[850px] h-dvh md:justify-evenly md:min-h-[750px] md:bg-[#D9D9D9] md:shadow-md md:h-[125vh]">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col justify-between gap-2 items-center rounded min-h-[850px] h-dvh md:justify-evenly md:min-h-[750px] md:bg-[#D9D9D9] md:shadow-md md:h-[125vh]"
+    >
       <div className="flex gap-10 w-[90%] md:gap-20 md:justify-center md:w-[80%]">
         <div>
           <h2 className="font-medium">First Name</h2>
@@ -146,7 +152,7 @@ const SendClaim = ({
           </option>
           <option value="Travel">Travel</option>
           <option value="Meal">Meal</option>
-          <option value="Stay">Night Stay</option>
+          <option value="Night stay">Night Stay</option>
           <option value="Gift">Gift</option>
           <option value="Other">Other</option>
         </select>
@@ -159,8 +165,13 @@ const SendClaim = ({
         onChange={handleChange}
       />
       <div className="grid grid-rows-2 auto-cols-auto gap-1 w-[90%] md:w-[80%]">
-        <label htmlFor="receipt" className="font-medium"/>
-        <input type="file" id="receipt" name="receipt" onChange={handleUploadFile}/>
+        <label htmlFor="receipt" className="font-medium" />
+        <input
+          type="file"
+          id="receipt"
+          name="receipt"
+          onChange={handleUploadFile}
+        />
       </div>
       <div className="flex items-center w-[90%] md:w-[80%]">
         <input
@@ -180,11 +191,7 @@ const SendClaim = ({
           performance of my official duties.
         </label>
       </div>
-      <Button
-        type="submit"
-        text="Submit"
-        style="my-2 w-[90%] md:w-[80%]"
-      />
+      <Button type="submit" text="Submit" style="my-2 w-[90%] md:w-[80%]" />
     </form>
   );
 };

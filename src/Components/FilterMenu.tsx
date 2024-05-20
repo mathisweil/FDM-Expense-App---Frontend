@@ -1,7 +1,7 @@
 import Filter from "./Filter";
 import React, { useState } from "react";
 import RangeSlider from "./RangeSlider/RangeSlider";
-import Button from "@/Components/Button";
+import Button from "@/components/Button";
 
 interface FilterMenuProps {
   onFilterChange: (
