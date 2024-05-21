@@ -13,7 +13,7 @@ export default async function Login() {
         action={async (formData) => {
           'use server';
           await login(formData);
-          redirect("/");
+
         }}
         className="bg-[#D9D9D9] flex flex-col justify-evenly items-center rounded w-full min-w-[400px] min-h-[350px] shadow-md h-[55vh]"
       >

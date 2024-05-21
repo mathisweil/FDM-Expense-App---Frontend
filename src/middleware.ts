@@ -1,7 +1,14 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
+import { updateSession } from "@/app/actions";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
+    return await updateSession(request);
 }
 
-export const config = {};
+export const config = {
+  source: "/((?!api|_next/static|_next/image|favicon.ico).*)",
+  missing: [
+    { type: "header", key: "next-router-prefetch" },
+    { type: "header", key: "purpose", value: "prefetch" },
+  ],
+};
