@@ -1,6 +1,7 @@
 import { sendClaim } from "@/app/actions";
 import Header from "@/components/Header";
 import Button from "@/components/Button";
+import { redirect } from "next/navigation";
 
 export default function ClaimForm({
   params,
@@ -11,7 +12,11 @@ export default function ClaimForm({
     <div className="flex flex-col justify-evenly md:mx-[10%]">
       <Header title="Expense Claim" divStyle="text-center my-4 md:text-left" />
       <form
-        action={sendClaim}
+        action={async (formData) => {
+          'use server';
+          await sendClaim(formData);
+          redirect("/");
+        }}
         className="flex flex-col justify-between gap-2 items-center rounded min-h-[850px] h-dvh md:justify-evenly md:min-h-[750px] md:bg-[#D9D9D9] md:shadow-md md:h-[125vh]"
       >
         <input

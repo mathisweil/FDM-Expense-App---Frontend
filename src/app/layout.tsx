@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/layout/Navigation";
-import { AuthProvider } from "@/components/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,13 +14,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <AuthProvider>
-      <html lang="en">
-        <body className={inter.className}>
-          <Navigation links={[]} home={"/home"} />
-          {children}
-        </body>
-      </html>
-    </AuthProvider>
+    <html lang="en">
+      <body className={inter.className}>
+        <Navigation links={[]} home={"/home"} />
+        {children}
+      </body>
+    </html>
   );
 }
