@@ -1,4 +1,17 @@
+"use server";
+
+import { createClaim } from "@/lib/claimsAPI";
 import { cookies } from "next/headers";
+import { encrypt } from "@/utils/encryption";
+
+export async function sendClaim(formData: FormData) {
+  if (!formData.get("acknowledgement")) {
+    return { message: "Please acknowledge the claim" };
+  } else {
+    createClaim(formData);
+  }
+  return { message: `Added` };
+}
 
 export async function login(formData: FormData) {
     // verify credentials && get user

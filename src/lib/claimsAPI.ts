@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { Claim } from "@/types/Claim";
 import { formatCurrency, formatDate } from "@/utils/formatUtils";
 
-async function createClaim(claim: Partial<Claim>): Promise<Claim> {
+async function createClaim(claim: FormData): Promise<Claim> {
   try {
     console.log(claim);
     const response: AxiosResponse<Claim> = await axios.post(
