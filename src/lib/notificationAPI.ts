@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import { Claim } from "../types/Claim";
 
 async function createNotification(claim: Partial<Claim>): Promise<Claim> {
   try {
